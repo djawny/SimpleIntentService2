@@ -58,12 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.button_stop:
 
-
-//                Intent intent2 = new Intent(this, SimpleIntentService.class)
-//                        .setAction("action.GET_SUBTRACTION")
-//                        .putExtra("extra.FIRST_VALUE", Double.parseDouble(mFirstValue.getText().toString()))
-//                        .putExtra("extra.SECOND_VALUE", Double.parseDouble(mSecondValue.getText().toString()));
-//                startService(intent2);
                 break;
         }
     }
