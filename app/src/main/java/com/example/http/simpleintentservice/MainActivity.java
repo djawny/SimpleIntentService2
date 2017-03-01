@@ -6,10 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         IntentFilter filter = new IntentFilter();
         filter.addAction("action.TIMER_RESULT");
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -59,14 +57,11 @@ public class MainActivity extends AppCompatActivity {
                 startAlarm();
                 break;
             case R.id.button_stop:
-
+                startAlarm();
                 break;
         }
     }
 
-    /**
-     * Metoda do wystartowania alarmu.
-     */
     private void startAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = createServiceIntent();
@@ -76,20 +71,13 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, startTime, interval, pendingIntent);
     }
 
-    /**
-     * Metoda do zatrzymania alarmu.
-     */
     private void stopAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
         Intent intent = createServiceIntent();
-        PendingIntent pendingIntent = null; //TODO
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.cancel(pendingIntent);
     }
 
-    /**
-     * Stwórz intent do uruchomienia serwisu.
-     */
     private Intent createServiceIntent() {
         Intent intent = new Intent(this, SimpleIntentService.class);
         intent.setAction("action.GET_TIME");
@@ -99,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private long getAlarmTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 19);
-        calendar.set(Calendar.MINUTE, 46);
+        calendar.set(Calendar.MINUTE, 47);
         calendar.set(Calendar.SECOND, 0);
         return calendar.getTimeInMillis();
     }
