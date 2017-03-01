@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     private long getAlarmTime() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
-        calendar.set(Calendar.MINUTE, 55);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 20);
         calendar.set(Calendar.SECOND, 0);
         return calendar.getTimeInMillis();
     }
