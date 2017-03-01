@@ -10,16 +10,25 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.clock_text)
+    TextView mClockText;
 
     LocalBroadcastManager localBroadcastManager;
 
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO odbierz odpowiedź i wyświetl wynik na ekranie
-            // double result = intent.getDoubleExtra("NAZWA_POLA", 0);
+            double result = intent.getDoubleExtra("extra.TIME", 0);
+            mClockText.setText(String.valueOf(result));
         }
     };
 
@@ -27,11 +36,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
 
         IntentFilter filter = new IntentFilter();
-        // filter.addAction("NAZWA_AKCJI"); TODO: wstaw nazwę akcji którą chcesz odebrać
-
+        filter.addAction("action.TIMER_RESULT");
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(broadcastReceiver, filter);
     }
@@ -42,7 +50,27 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /** Metoda do wystartowania alarmu. */
+    @OnClick({R.id.button_start, R.id.button_stop})
+    public void getButtonClicked(View view) {
+        switch (view.getId()) {
+            case R.id.button_start:
+
+                break;
+            case R.id.button_stop:
+
+
+//                Intent intent2 = new Intent(this, SimpleIntentService.class)
+//                        .setAction("action.GET_SUBTRACTION")
+//                        .putExtra("extra.FIRST_VALUE", Double.parseDouble(mFirstValue.getText().toString()))
+//                        .putExtra("extra.SECOND_VALUE", Double.parseDouble(mSecondValue.getText().toString()));
+//                startService(intent2);
+                break;
+        }
+    }
+
+    /**
+     * Metoda do wystartowania alarmu.
+     */
     private void startAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -54,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, startTime, interval, pendingIntent);
     }
 
-    /** Metoda do zatrzymania alarmu. */
+    /**
+     * Metoda do zatrzymania alarmu.
+     */
     private void stopAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -63,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.cancel(pendingIntent);
     }
 
-    /** Stwórz intent do uruchomienia serwisu. */
+    /**
+     * Stwórz intent do uruchomienia serwisu.
+     */
     private Intent createServiceIntent() {
         Intent intent = new Intent(this, SimpleIntentService.class);
         intent.setAction("action.GET_TIME");

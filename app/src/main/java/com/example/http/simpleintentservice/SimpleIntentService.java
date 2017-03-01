@@ -31,7 +31,7 @@ public class SimpleIntentService extends IntentService {
     private void broadcastResult(String time) {
         Intent intent = new Intent();
         intent.setAction("action.TIMER_RESULT");
-        intent.putExtra("extra.VALUE", time);
+        intent.putExtra("extra.TIME", time);
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
         broadcastManager.sendBroadcast(intent);
