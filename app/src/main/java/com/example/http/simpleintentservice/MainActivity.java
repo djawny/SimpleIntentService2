@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 startAlarm();
                 break;
             case R.id.button_stop:
-                startAlarm();
+                stopAlarm();
                 break;
         }
     }
