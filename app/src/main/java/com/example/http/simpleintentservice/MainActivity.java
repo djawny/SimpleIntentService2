@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            double result = intent.getDoubleExtra("extra.TIME", 0);
-            mClockText.setText(String.valueOf(result));
+            String result = intent.getStringExtra("extra.TIME");
+            mClockText.setText(result);
         }
     };
 
