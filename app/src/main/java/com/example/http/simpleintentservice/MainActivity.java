@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public void getButtonClicked(View view) {
         switch (view.getId()) {
             case R.id.button_start:
-
+                startAlarm();
                 break;
             case R.id.button_stop:
 
@@ -67,12 +69,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void startAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
         Intent intent = createServiceIntent();
-        PendingIntent pendingIntent = null; // TODO
-        long startTime = 0; //TODO
-        long interval = 0; //TODO
-
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        long startTime = getAlarmTime();
+        long interval = 60L * 1000L;
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, startTime, interval, pendingIntent);
     }
 
@@ -93,7 +93,14 @@ public class MainActivity extends AppCompatActivity {
     private Intent createServiceIntent() {
         Intent intent = new Intent(this, SimpleIntentService.class);
         intent.setAction("action.GET_TIME");
-
         return intent;
+    }
+
+    private long getAlarmTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(Calendar.MINUTE, 46);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTimeInMillis();
     }
 }
